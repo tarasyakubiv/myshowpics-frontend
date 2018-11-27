@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-class ImageCreate extends Component {
+class ContestantCreate extends Component {
 
   constructor() {
     super();
     this.state = {
-      image: '',
-      gameShow: null,
-      contestants: [],
-      tags: []
+      fullName: '',
+      gameShows: [],
+      images: []
     };
   }
   onChange = (e) => {
@@ -22,30 +21,30 @@ class ImageCreate extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    const { image, gameShow, contestants, tags } = this.state;
+    const { fullName, gameShows, images} = this.state;
 
-    axios.post('http://localhost:8090/images', { image, gameShow, contestants, tags })
+    axios.post('http://localhost:8090/contestants', { fullName, gameShows, images })
       .then((result) => {
-        this.props.history.push("/")
+        this.props.history.push("/contestants")
       });
   }
 
   render() {
-    const  { image, gameShow, contestants, tags } = this.state;
+    const  { fullName, gameShows, images  } = this.state;
     return (
       <div class="container">
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title">
-              ADD IMAGE
+              ADD CONTESTANT
             </h3>
           </div>
           <div class="panel-body">
-            <h4><Link to="/"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> IMAGES</Link></h4>
+            <h4><Link to="/contestants"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> CONTESTANTS</Link></h4>
             <form onSubmit={this.onSubmit}>
               <div class="form-group">
-                <label for="isbn">Image Link:</label>
-                <input type="text" class="form-control" name="image" value={image} onChange={this.onChange} placeholder="Image" />
+                <label for="isbn">Contestant Name:</label>
+                <input type="text" class="form-control" name="fullName" value={fullName} onChange={this.onChange} placeholder="Contestant" />
               </div>
               <button type="submit" class="btn btn-default">Submit</button>
             </form>
@@ -56,4 +55,4 @@ class ImageCreate extends Component {
   }
 }
 
-export default ImageCreate;
+export default ContestantCreate;

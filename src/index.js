@@ -8,7 +8,13 @@ import ImageCreate from './components/ImageCreate';
 import ImageEdit from './components/ImageEdit';
 import ImageShow from './components/ImageShow';
 import ShowsList from './components/ShowsList';
+import ShowShow from './components/ShowShow';
+import ShowEdit from './components/ShowEdit';
+import ShowCreate from './components/ShowCreate';
 import ContestantsList from './components/ContestantsList';
+import ContestantShow from './components/ContestantShow';
+import ContestantCreate from './components/ContestantCreate';
+import ContestantEdit from './components/ContestantEdit';
 import { Link } from 'react-router-dom';
 
 ReactDOM.render(<Router>
@@ -37,13 +43,13 @@ ReactDOM.render(<Router>
       <Route path='/images/create' component={ImageCreate} />
       <Route path='/images/show/:id' component={ImageShow} />
       <Route exact path='/shows' component={ShowsList} />
-      <Route path='/shows/edit/:id' component={ImageEdit} />
-      <Route path='/shows/create' component={ImageCreate} />
-      <Route path='/shows/show/:id' component={ImageShow} />
+      <Route path='/shows/edit/:id' component={ShowEdit} />
+      <Route path='/shows/create' component={ShowCreate} />
+      <Route path='/shows/show/:id' component={ShowShow} />
       <Route exact path='/contestants' component={ContestantsList} />
-      <Route path='/contestants/edit/:id' component={ImageEdit} />
-      <Route path='/contestants/create' component={ImageCreate} />
-      <Route path='/contestants/show/:id' component={ImageShow} />
+      <Route path='/contestants/show/:id' component={ContestantShow} />
+      <Route path='/contestants/create' component={ContestantCreate} />
+      <Route path='/contestants/edit/:id' component={ContestantEdit} />
     </div>
     </div>
 

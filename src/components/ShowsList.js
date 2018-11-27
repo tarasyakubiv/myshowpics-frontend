@@ -18,7 +18,7 @@ class ShowsList extends Component {
   render() {
     return (
           <div class="panel-body">
-            <h4><Link to="/images/create"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Show</Link></h4>
+            <h4><Link to="/shows/create"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Show</Link></h4>
             <table class="table table-stripe">
               <thead>
                 <tr>
