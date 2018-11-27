@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import '../App.css';
 import { Link } from 'react-router-dom';
 
 class ShowShow extends Component {
@@ -7,7 +8,8 @@ class ShowShow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: {}
+      show: {},
+      images: []
     };
   }
 
@@ -15,8 +17,11 @@ class ShowShow extends Component {
     axios.get('http://localhost:8090/shows/'+this.props.match.params.id)
       .then(res => {
         this.setState({ show: res.data });
-        console.log(this.state.show);
       });
+      axios.get('http://localhost:8090/shows/'+this.props.match.params.id+"/images")
+      .then(res => {
+        this.setState({ images: res.data });
+      })
   }
 
   delete(id){
@@ -47,6 +52,20 @@ class ShowShow extends Component {
             <dl>
               <dt>Contestants:</dt>
               <dd>
+              </dd>
+            </dl>
+            <dl>
+              <dt>Images:</dt>
+              <dd>
+              <div class="images-container">
+              {this.state.images.map(i =>
+                  <div class="image-div">
+                    <Link to={`/images/show/${i.id}`}>
+                      <img class ="image" src={i.image}></img>
+                    </Link>
+                  </div>
+                )}
+            </div>
               </dd>
             </dl>
             <Link to={`/shows/edit/${this.state.show.id}`} class="btn btn-success">Edit</Link>&nbsp;

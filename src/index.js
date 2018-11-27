@@ -7,6 +7,8 @@ import App from './App';
 import ImageCreate from './components/ImageCreate';
 import ImageEdit from './components/ImageEdit';
 import ImageShow from './components/ImageShow';
+import ImageTagCreate from './components/ImageTagCreate';
+import ImageShowSet from './components/ImageShowSet';
 import ShowsList from './components/ShowsList';
 import ShowShow from './components/ShowShow';
 import ShowEdit from './components/ShowEdit';
@@ -22,19 +24,16 @@ ReactDOM.render(<Router>
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title">
-              <Link to={`/images`}>
+              <span class="menu-blocks"><Link to={`/images`}>
                 IMAGES
-              </Link>
-            </h3>
-            <h3 class="panel-title">
-              <Link to={`/shows`}>
+              </Link></span>
+              <span class="menu-blocks"><Link to={`/shows`}>
                 SHOWS
-              </Link>
-            </h3>
-            <h3 class="panel-title">
+              </Link></span>
+              <span class="menu-blocks">
               <Link to={`/contestants`}>
                 CONTESTANTS
-              </Link>
+              </Link></span>
             </h3>
           </div>
       <Route exact path='/' component={App} />
@@ -42,6 +41,8 @@ ReactDOM.render(<Router>
       <Route path='/images/edit/:id' component={ImageEdit} />
       <Route path='/images/create' component={ImageCreate} />
       <Route path='/images/show/:id' component={ImageShow} />
+      <Route path='/images/:id/tags/create' component={ImageTagCreate} />
+      <Route path='/images/:id/shows/set' component={ImageShowSet} />
       <Route exact path='/shows' component={ShowsList} />
       <Route path='/shows/edit/:id' component={ShowEdit} />
       <Route path='/shows/create' component={ShowCreate} />

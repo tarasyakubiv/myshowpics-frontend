@@ -7,15 +7,20 @@ class ImageShow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      image: {}
+      image: {},
+      show: {},
+      contestants: [],
+      tags: []
     };
   }
 
   componentDidMount() {
     axios.get('http://localhost:8090/images/'+this.props.match.params.id)
       .then(res => {
-        this.setState({ image: res.data });
-        console.log(this.state.image);
+        this.setState({ image: res.data, contestants: res.data.contestants, tags: res.data.tags});
+        if(res.data.gameShow != null) {
+          this.setState({ show: res.data.gameShow });
+        }
       });
   }
 
@@ -25,6 +30,13 @@ class ImageShow extends Component {
       .then((result) => {
         this.props.history.push("/")
       });
+  }
+
+  deleteTag(tagId) {
+    axios.delete('http://localhost:8090/tags/'+tagId)
+    .then((result) => {
+      window.location.reload();
+    });
   }
 
   render() {
@@ -52,15 +64,31 @@ class ImageShow extends Component {
             </dl>
             <dl>
               <dt>Tags:</dt>
+              <dd>
+              {this.state.tags.map(tag =>
+                  <li>
+                    {tag.name}
+                    <button onClick={this.deleteTag.bind(this, tag.id)} class="btn btn-danger">Remove</button>
+                  </li>
+                )}
+              <Link to={`/images/${this.state.image.id}/tags/create`} class="btn btn-success">Add Tag</Link>&nbsp;
+              </dd>
             </dl>
             <dl>
               <dt>Show:</dt>
               <dd>
+              {this.state.show.name}
               </dd>
+              <Link to={`/images/${this.state.image.id}/shows/set`} class="btn btn-success">Set Show</Link>&nbsp;
             </dl>
             <dl>
               <dt>Contestants:</dt>
               <dd>
+              {this.state.contestants.map(c =>
+                  <li>
+                    {c.fullName}
+                  </li>
+                )}
               </dd>
             </dl>
             <Link to={`/images/edit/${this.state.image.id}`} class="btn btn-success">Edit</Link>&nbsp;
