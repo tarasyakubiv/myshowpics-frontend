@@ -20,11 +20,11 @@ class App extends Component {
     return (
 
           <div class="panel-body">
-            <h4><Link to="/images/create"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Image</Link></h4>
+            <h4><Link to="/image/create"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Image</Link></h4>
             <div class="images-container">
               {this.state.images.map(i =>
                   <div class="image-div">
-                    <Link to={`/images/show/${i.id}`}>
+                    <Link to={`/image/details/${i.id}`}>
                       <img class ="image" src={i.image}></img>
                     </Link>
                   </div>

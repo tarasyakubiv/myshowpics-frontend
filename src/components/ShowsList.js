@@ -28,7 +28,7 @@ class ShowsList extends Component {
               <tbody>
                 {this.state.shows.map(c =>
                   <tr>
-                    <td><Link to={`/shows/show/${c.id}`}>{c.name}</Link></td>
+                    <td><Link to={`/shows/details/${c.id}`}>{c.name}</Link></td>
                   </tr>
                 )}
               </tbody>

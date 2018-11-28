@@ -7,7 +7,7 @@ class ContestantCreate extends Component {
   constructor() {
     super();
     this.state = {
-      fullName: '',
+      name: '',
       gameShows: [],
       images: []
     };
@@ -21,16 +21,16 @@ class ContestantCreate extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    const { fullName, gameShows, images} = this.state;
+    const { name, gameShows, images} = this.state;
 
-    axios.post('http://localhost:8090/contestants', { fullName, gameShows, images })
+    axios.post('http://localhost:8090/contestants', { name, gameShows, images })
       .then((result) => {
         this.props.history.push("/contestants")
       });
   }
 
   render() {
-    const  { fullName, gameShows, images  } = this.state;
+    const  { name, gameShows, images  } = this.state;
     return (
       <div class="container">
         <div class="panel panel-default">
@@ -44,7 +44,7 @@ class ContestantCreate extends Component {
             <form onSubmit={this.onSubmit}>
               <div class="form-group">
                 <label for="isbn">Contestant Name:</label>
-                <input type="text" class="form-control" name="fullName" value={fullName} onChange={this.onChange} placeholder="Contestant" />
+                <input type="text" class="form-control" name="name" value={name} onChange={this.onChange} placeholder="Contestant" />
               </div>
               <button type="submit" class="btn btn-default">Submit</button>
             </form>

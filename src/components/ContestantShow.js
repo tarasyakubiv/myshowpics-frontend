@@ -7,14 +7,15 @@ class ImageShow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      contestant: {}
+      contestant: {},
+      shows: []
     };
   }
 
   componentDidMount() {
     axios.get('http://localhost:8090/contestants/'+this.props.match.params.id)
       .then(res => {
-        this.setState({ contestant: res.data });
+        this.setState({ contestant: res.data, shows: res.data.gameShows  });
         console.log(this.state.contestant);
       });
   }
@@ -25,6 +26,13 @@ class ImageShow extends Component {
       .then((result) => {
         this.props.history.push("/contestants")
       });
+  }
+
+  deleteShow(id) {
+    axios.delete('http://localhost:8090/contestants/'+this.props.match.params.id+'/shows/'+id)
+    .then((result) => {
+      this.props.history.push("/contestants")
+    });
   }
 
   render() {
@@ -41,12 +49,19 @@ class ImageShow extends Component {
             <dl>
               <dt>Full Name:</dt>
               <dd>
-              {this.state.contestant.fullName}
+              {this.state.contestant.name}
               </dd>
             </dl>
             <dl>
               <dt>Shows:</dt>
               <dd>
+              {this.state.shows.map(s =>
+                  <li>
+                    {s.name}
+                    <button onClick={this.deleteShow.bind(this, s.id)} class="btn btn-danger">Remove</button>
+                  </li>
+                )}
+                <Link to={`/contestants/${this.state.contestant.id}/shows/set`} class="btn btn-success">Set Show</Link>&nbsp;
               </dd>
             </dl>
             <dl>

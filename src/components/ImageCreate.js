@@ -24,7 +24,7 @@ class ImageCreate extends Component {
 
     const { image, gameShow, contestants, tags } = this.state;
 
-    axios.post('http://localhost:8090/images', { image, gameShow, contestants, tags })
+    axios.post('http://localhost:8090/image', { image, gameShow, contestants, tags })
       .then((result) => {
         this.props.history.push("/")
       });

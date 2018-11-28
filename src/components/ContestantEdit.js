@@ -28,9 +28,9 @@ class ContestantEdit extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    const { fullName, gameShows, images } = this.state.contestant;
+    const { name, gameShows, images } = this.state.contestant;
 
-    axios.put('http://localhost:8090/contestants/'+this.props.match.params.id, { fullName, gameShows, images})
+    axios.put('http://localhost:8090/contestants/'+this.props.match.params.id, { name, gameShows, images})
       .then((result) => {
         this.props.history.push("/contestants/show/"+this.props.match.params.id)
       });
@@ -50,7 +50,7 @@ class ContestantEdit extends Component {
             <form onSubmit={this.onSubmit}>
               <div class="form-group">
                 <label for="name">Contestant:</label>
-                <input type="text" class="form-control" name="Contestant" value={this.state.contestant.fullName} onChange={this.onChange} placeholder="Contestant Nme" />
+                <input type="text" class="form-control" name="Contestant" value={this.state.contestant.name} onChange={this.onChange} placeholder="Contestant Nme" />
               </div>
               <button type="submit" class="btn btn-default">Update</button>
             </form>

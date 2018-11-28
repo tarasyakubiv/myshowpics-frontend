@@ -12,7 +12,7 @@ class ShowEdit extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:8090/images/'+this.props.match.params.id)
+    axios.get('http://localhost:8090/image/'+this.props.match.params.id)
       .then(res => {
         this.setState({ show: res.data });
         console.log(this.state.show);

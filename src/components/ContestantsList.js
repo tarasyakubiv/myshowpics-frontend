@@ -28,7 +28,7 @@ class ContestantsList extends Component {
               <tbody>
                 {this.state.contestants.map(c =>
                   <tr>
-                    <td><Link to={`/contestants/show/${c.id}`}>{c.fullName}</Link></td>
+                    <td><Link to={`/contestants/show/${c.id}`}>{c.name}</Link></td>
                   </tr>
                 )}
               </tbody>

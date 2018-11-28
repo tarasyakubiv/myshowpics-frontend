@@ -23,9 +23,9 @@ class ImageTagCreate extends Component {
 
     axios.post('http://localhost:8090/tags', { name})
       .then((result) => {
-        axios.patch('http://localhost:8090/images/'+this.props.match.params.id+'/tags/'+result.data.id).
+        axios.patch('http://localhost:8090/image/'+this.props.match.params.id+'/tags/'+result.data.id).
         then((result) => {
-          this.props.history.push("/images/show/"+this.props.match.params.id)
+          this.props.history.push("/image/details/"+this.props.match.params.id)
         })
       });
   }
@@ -41,7 +41,7 @@ class ImageTagCreate extends Component {
             </h3>
           </div>
           <div class="panel-body">
-            <h4><Link to={`/images/show/${this.props.match.params.id}`}><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>Image View</Link></h4>
+            <h4><Link to={`/image/show/${this.props.match.params.id}`}><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>Image View</Link></h4>
             <form onSubmit={this.onSubmit}>
               <div class="form-group">
                 <label for="isbn">Name:</label>

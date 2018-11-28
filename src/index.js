@@ -8,7 +8,7 @@ import ImageCreate from './components/ImageCreate';
 import ImageEdit from './components/ImageEdit';
 import ImageShow from './components/ImageShow';
 import ImageTagCreate from './components/ImageTagCreate';
-import ImageShowSet from './components/ImageShowSet';
+import AddChild from './components/AddChild';
 import ShowsList from './components/ShowsList';
 import ShowShow from './components/ShowShow';
 import ShowEdit from './components/ShowEdit';
@@ -38,15 +38,15 @@ ReactDOM.render(<Router>
           </div>
       <Route exact path='/' component={App} />
       <Route exact path='/images' component={App} />
-      <Route path='/images/edit/:id' component={ImageEdit} />
-      <Route path='/images/create' component={ImageCreate} />
-      <Route path='/images/show/:id' component={ImageShow} />
-      <Route path='/images/:id/tags/create' component={ImageTagCreate} />
-      <Route path='/images/:id/shows/set' component={ImageShowSet} />
+      <Route path='/image/edit/:id' component={ImageEdit} />
+      <Route path='/image/create' component={ImageCreate} />
+      <Route path='/image/details/:id' component={ImageShow} />
+      <Route path='/image/:id/tags/create' component={ImageTagCreate} />
+      <Route path='/:parent/:id/:children/set' component={AddChild} />
       <Route exact path='/shows' component={ShowsList} />
       <Route path='/shows/edit/:id' component={ShowEdit} />
       <Route path='/shows/create' component={ShowCreate} />
-      <Route path='/shows/show/:id' component={ShowShow} />
+      <Route path='/shows/details/:id' component={ShowShow} />
       <Route exact path='/contestants' component={ContestantsList} />
       <Route path='/contestants/show/:id' component={ContestantShow} />
       <Route path='/contestants/create' component={ContestantCreate} />

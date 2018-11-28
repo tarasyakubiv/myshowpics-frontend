@@ -9,6 +9,7 @@ class ShowShow extends Component {
     super(props);
     this.state = {
       show: {},
+      contestants: [],
       images: []
     };
   }
@@ -17,11 +18,16 @@ class ShowShow extends Component {
     axios.get('http://localhost:8090/shows/'+this.props.match.params.id)
       .then(res => {
         this.setState({ show: res.data });
-      });
+      })
       axios.get('http://localhost:8090/shows/'+this.props.match.params.id+"/images")
       .then(res => {
         this.setState({ images: res.data });
       })
+      axios.get('http://localhost:8090/shows/'+this.props.match.params.id+"/contestants")
+      .then(res => {
+        this.setState({ contestants: res.data });
+      })
+
   }
 
   delete(id){
@@ -30,6 +36,13 @@ class ShowShow extends Component {
       .then((result) => {
         this.props.history.push("/shows")
       });
+  }
+
+  deleteContestant(id) {
+    axios.delete('http://localhost:8090/shows/'+this.props.match.params.id+"/contestants/"+id)
+    .then((result) => {
+      window.location.reload();
+    });
   }
 
   render() {
@@ -42,7 +55,7 @@ class ShowShow extends Component {
             </h3>
           </div>
           <div class="panel-body">
-            <h4><Link to="/"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>Back to Shows</Link></h4>
+            <h4><Link to="/shows"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>Back to Shows</Link></h4>
             <dl>
               <dt>Name:</dt>
               <dd>
@@ -52,7 +65,14 @@ class ShowShow extends Component {
             <dl>
               <dt>Contestants:</dt>
               <dd>
+              {this.state.contestants.map(c =>
+                  <li>
+                    {c.name}
+                    <button onClick={this.deleteContestant.bind(this, c.id)} class="btn btn-danger">Remove</button>
+                  </li>
+                )}
               </dd>
+              <Link to={`/shows/${this.state.show.id}/contestants/set`} class="btn btn-success">Set Contestants</Link>&nbsp;
             </dl>
             <dl>
               <dt>Images:</dt>
@@ -60,7 +80,7 @@ class ShowShow extends Component {
               <div class="images-container">
               {this.state.images.map(i =>
                   <div class="image-div">
-                    <Link to={`/images/show/${i.id}`}>
+                    <Link to={`/image/show/${i.id}`}>
                       <img class ="image" src={i.image}></img>
                     </Link>
                   </div>
