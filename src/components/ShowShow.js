@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import '../App.css';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Autocomplete from './Autocomplete'
 
 class ShowShow extends Component {
 
@@ -10,7 +12,8 @@ class ShowShow extends Component {
     this.state = {
       show: {},
       contestants: [],
-      images: []
+      images: [],
+      tags_options: []
     };
   }
 
@@ -55,7 +58,6 @@ class ShowShow extends Component {
             </h3>
           </div>
           <div class="panel-body">
-            <h4><Link to="/shows"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>Back to Shows</Link></h4>
             <dl>
               <dt>Name:</dt>
               <dd>
@@ -66,13 +68,19 @@ class ShowShow extends Component {
               <dt>Contestants:</dt>
               <dd>
               {this.state.contestants.map(c =>
-                  <li>
-                    {c.name}
-                    <button onClick={this.deleteContestant.bind(this, c.id)} class="btn btn-danger">Remove</button>
-                  </li>
+                <div class="child-container">
+                  <span class="child-span">{c.name}</span>
+                  <FontAwesomeIcon onClick={this.deleteContestant.bind(this, c.id)} className="fa-button" color="red" icon="times" />
+                  </div>                  
                 )}
               </dd>
-              <Link to={`/shows/${this.state.show.id}/contestants/set`} class="btn btn-success">Set Contestants</Link>&nbsp;
+            </dl>
+            <dl>
+              <dd>
+              <Autocomplete options={this.state.tags_options} placeholder="Add new contestant"
+                            parentId={this.props.match.params.id} parentName="shows" 
+                            collectionName="contestants" url='http://localhost:8090/contestants/'/>
+              </dd>
             </dl>
             <dl>
               <dt>Images:</dt>

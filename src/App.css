@@ -32,12 +32,27 @@
   height: 200px;
 }
 
+.child-container {
+  float: left;
+}
+
+.child-span {
+  margin-right: 5px;
+}
+
+.fa-button {
+  cursor: pointer;
+  height: 15px;
+  margin-right:10px;
+}
+
 .image {
   width: 200px;
   height: 200px;
   border-style: solid;
   border-color: black;
 }
+
 
 @keyframes App-logo-spin {
   from {

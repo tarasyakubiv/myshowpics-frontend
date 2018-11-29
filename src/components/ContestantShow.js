@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Autocomplete from './Autocomplete'
 class ImageShow extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       contestant: {},
-      shows: []
+      shows: [],
+      tags_options: []
     };
   }
 
@@ -45,7 +47,6 @@ class ImageShow extends Component {
             </h3>
           </div>
           <div class="panel-body">
-            <h4><Link to="/contestants"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>Back to Contestants</Link></h4>
             <dl>
               <dt>Full Name:</dt>
               <dd>
@@ -56,12 +57,18 @@ class ImageShow extends Component {
               <dt>Shows:</dt>
               <dd>
               {this.state.shows.map(s =>
-                  <li>
-                    {s.name}
-                    <button onClick={this.deleteShow.bind(this, s.id)} class="btn btn-danger">Remove</button>
-                  </li>
+                <div class="child-container">
+                <span class="child-span">{s.name}</span>
+                <FontAwesomeIcon onClick={this.deleteShow.bind(this, s.id)} className="fa-button" color="red" icon="times" />
+                </div>  
                 )}
-                <Link to={`/contestants/${this.state.contestant.id}/shows/set`} class="btn btn-success">Set Show</Link>&nbsp;
+              </dd>
+            </dl>
+            <dl>
+              <dd>
+              <Autocomplete options={this.state.tags_options} placeholder="Set Show"
+                            parentId={this.props.match.params.id} parentName="contestants" 
+                            collectionName="shows" url='http://localhost:8090/shows/'/>
               </dd>
             </dl>
             <dl>

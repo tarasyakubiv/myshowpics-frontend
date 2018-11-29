@@ -7,8 +7,6 @@ import App from './App';
 import ImageCreate from './components/ImageCreate';
 import ImageEdit from './components/ImageEdit';
 import ImageShow from './components/ImageShow';
-import ImageTagCreate from './components/ImageTagCreate';
-import AddChild from './components/AddChild';
 import ShowsList from './components/ShowsList';
 import ShowShow from './components/ShowShow';
 import ShowEdit from './components/ShowEdit';
@@ -18,6 +16,11 @@ import ContestantShow from './components/ContestantShow';
 import ContestantCreate from './components/ContestantCreate';
 import ContestantEdit from './components/ContestantEdit';
 import { Link } from 'react-router-dom';
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fab } from '@fortawesome/free-brands-svg-icons'
+import { faCheckSquare, faTimes } from '@fortawesome/free-solid-svg-icons'
+
+library.add(fab, faCheckSquare, faTimes)
 
 ReactDOM.render(<Router>
       <div class="container">
@@ -41,8 +44,6 @@ ReactDOM.render(<Router>
       <Route path='/image/edit/:id' component={ImageEdit} />
       <Route path='/image/create' component={ImageCreate} />
       <Route path='/image/details/:id' component={ImageShow} />
-      <Route path='/image/:id/tags/create' component={ImageTagCreate} />
-      <Route path='/:parent/:id/:children/set' component={AddChild} />
       <Route exact path='/shows' component={ShowsList} />
       <Route path='/shows/edit/:id' component={ShowEdit} />
       <Route path='/shows/create' component={ShowCreate} />
