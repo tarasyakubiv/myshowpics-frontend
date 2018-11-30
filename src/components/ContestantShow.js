@@ -7,10 +7,12 @@ class ImageShow extends Component {
 
   constructor(props) {
     super(props);
+    this.createItem = this.createItem.bind(this);
+    this.addItem = this.addItem.bind(this);
     this.state = {
       contestant: {},
       shows: [],
-      tags_options: []
+      images: []
     };
   }
 
@@ -20,6 +22,10 @@ class ImageShow extends Component {
         this.setState({ contestant: res.data, shows: res.data.gameShows  });
         console.log(this.state.contestant);
       });
+    axios.get('http://localhost:8090/contestants/'+this.props.match.params.id+"/images")
+      .then(res => {
+        this.setState({ images: res.data });
+      })
   }
 
   delete(id){
@@ -30,11 +36,30 @@ class ImageShow extends Component {
       });
   }
 
-  deleteShow(id) {
-    axios.delete('http://localhost:8090/contestants/'+this.props.match.params.id+'/shows/'+id)
-    .then((result) => {
-      this.props.history.push("/contestants")
-    });
+  createItem(collection, collectionName, itemName) {
+    axios.post("http://localhost:8090/"+collectionName, {name: itemName})
+    .then((response) => {
+      this.addItem(collection, collectionName, response.data)
+     })
+  }
+
+  addItem(collection, collectionName, item) {
+    axios.patch("http://localhost:8090/contestants/"+this.props.match.params.id+"/"+collectionName+"/"+item.id)
+    .then(() => {
+        collection.push(item)
+        this.setState({collectionName: collection});
+    })
+    .catch(error=>{return console.error('Failed to save')})
+  }
+
+  deleteItem(collection, collectionName, itemId) {
+    axios.delete('http://localhost:8090/contestants/'+this.props.match.params.id+"/"+collectionName+"/"+itemId)
+    .then(() => {
+        let removeIndex = collection.map(function(item) { return item.id; }).indexOf(itemId);
+        collection.splice(removeIndex, 1)
+        this.setState({collectionName: collection});
+    })
+    .catch(error=>{return console.error('Failed to delete')});
   }
 
   render() {
@@ -59,25 +84,39 @@ class ImageShow extends Component {
               {this.state.shows.map(s =>
                 <div class="child-container">
                 <span class="child-span">{s.name}</span>
-                <FontAwesomeIcon onClick={this.deleteShow.bind(this, s.id)} className="fa-button" color="red" icon="times" />
+                <FontAwesomeIcon onClick={this.deleteItem.bind(this, this.state.shows, "shows", s.id)} className="fa-button" color="red" icon="times" />
                 </div>  
                 )}
               </dd>
             </dl>
             <dl>
               <dd>
-              <Autocomplete options={this.state.tags_options} placeholder="Set Show"
+              <Autocomplete options={this.state.shows} placeholder="Set Show"
+                            addHandler={this.addItem} createHandler={this.createItem}
                             parentId={this.props.match.params.id} parentName="contestants" 
                             collectionName="shows" url='http://localhost:8090/shows/'/>
               </dd>
             </dl>
             <dl>
+            <div class="cl-b">
               <dt>Images:</dt>
               <dd>
+              <div class="images-container">
+              {this.state.images.map(i =>
+                  <div class="image-div">
+                    <Link to={`/image/details/${i.id}`}>
+                      <img class ="image" src={i.image}></img>
+                    </Link>
+                  </div>
+                )}
+            </div>
               </dd>
+              </div>
             </dl>
-            <Link to={`/contestants/edit/${this.state.contestant.id}`} class="btn btn-success">Edit</Link>&nbsp;
-            <button onClick={this.delete.bind(this, this.state.contestant.id)} class="btn btn-danger">Delete</button>
+            <div class="cl-b">
+              <Link to={`/contestants/edit/${this.state.contestant.id}`} class="btn btn-success">Edit</Link>&nbsp;
+              <button onClick={this.delete.bind(this, this.state.contestant.id)} class="btn btn-danger">Delete</button>
+            </div>
           </div>
         </div>
       </div>

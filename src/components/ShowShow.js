@@ -9,11 +9,12 @@ class ShowShow extends Component {
 
   constructor(props) {
     super(props);
+    this.createItem = this.createItem.bind(this);
+    this.addItem = this.addItem.bind(this);
     this.state = {
       show: {},
       contestants: [],
-      images: [],
-      tags_options: []
+      images: []
     };
   }
 
@@ -41,11 +42,34 @@ class ShowShow extends Component {
       });
   }
 
-  deleteContestant(id) {
-    axios.delete('http://localhost:8090/shows/'+this.props.match.params.id+"/contestants/"+id)
-    .then((result) => {
-      window.location.reload();
-    });
+  createItem(collection, collectionName, itemName) {
+    axios.post("http://localhost:8090/"+collectionName, {name: itemName})
+    .then((response) => {
+      this.addItem(collection, collectionName, response.data)
+     })
+  }
+
+  addItem(collection, collectionName, item) {
+    axios.patch("http://localhost:8090/shows/"+this.props.match.params.id+"/"+collectionName+"/"+item.id)
+    .then(() => {
+      if(collectionName != "shows") {
+        collection.push(item)
+        this.setState({collectionName: collection});
+      } else {
+        this.setState({show: item});
+      }
+    })
+    .catch(error=>{return console.error('Failed to save')})
+  }
+
+  deleteItem(collection, collectionName, itemId) {
+    axios.delete('http://localhost:8090/shows/'+this.props.match.params.id+"/"+collectionName+"/"+itemId)
+    .then(() => {
+        let removeIndex = collection.map(function(item) { return item.id; }).indexOf(itemId);
+        collection.splice(removeIndex, 1)
+        this.setState({collectionName: collection});
+    })
+    .catch(error=>{return console.error('Failed to delete')});
   }
 
   render() {
@@ -70,34 +94,39 @@ class ShowShow extends Component {
               {this.state.contestants.map(c =>
                 <div class="child-container">
                   <span class="child-span">{c.name}</span>
-                  <FontAwesomeIcon onClick={this.deleteContestant.bind(this, c.id)} className="fa-button" color="red" icon="times" />
+                  <FontAwesomeIcon onClick={this.deleteItem.bind(this, this.state.contestants, "contestants", c.id)} className="fa-button" color="red" icon="times" />
                   </div>                  
                 )}
               </dd>
             </dl>
             <dl>
               <dd>
-              <Autocomplete options={this.state.tags_options} placeholder="Add new contestant"
+              <Autocomplete options={this.state.contestants} placeholder="Add new contestant"
+                            addHandler={this.addItem} createHandler={this.createItem} 
                             parentId={this.props.match.params.id} parentName="shows" 
                             collectionName="contestants" url='http://localhost:8090/contestants/'/>
               </dd>
             </dl>
             <dl>
+            <div class="cl-b">
               <dt>Images:</dt>
               <dd>
               <div class="images-container">
               {this.state.images.map(i =>
                   <div class="image-div">
-                    <Link to={`/image/show/${i.id}`}>
+                    <Link to={`/image/details/${i.id}`}>
                       <img class ="image" src={i.image}></img>
                     </Link>
                   </div>
                 )}
             </div>
               </dd>
+              </div>
             </dl>
+            <div class="cl-b">
             <Link to={`/shows/edit/${this.state.show.id}`} class="btn btn-success">Edit</Link>&nbsp;
             <button onClick={this.delete.bind(this, this.state.show.id)} class="btn btn-danger">Delete</button>
+            </div>
           </div>
         </div>
       </div>
