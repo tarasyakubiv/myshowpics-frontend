@@ -6,18 +6,18 @@ import './index.css';
 import App from './App';
 import ImageCreate from './components/ImageCreate';
 import ImageEdit from './components/ImageEdit';
-import ImageShow from './components/ImageShow';
-import ShowShow from './components/ShowShow';
-import ShowEdit from './components/ShowEdit';
-import ShowCreate from './components/ShowCreate';
-import ContestantShow from './components/ContestantShow';
-import ContestantCreate from './components/ContestantCreate';
-import ContestantEdit from './components/ContestantEdit';
+
+import ImageDetails from './components/ImageDetails';
+import ShowDetails from './components/ShowDetails';
+import ContestantDetails from './components/ContestantDetails';
+import TagDetails from './components/TagDetails';
+
 import CollectionList from './components/CollectionList';
 import { Link } from 'react-router-dom';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { faCheckSquare, faTimes } from '@fortawesome/free-solid-svg-icons'
+
 
 library.add(fab, faCheckSquare, faTimes)
 
@@ -49,15 +49,11 @@ ReactDOM.render(<Router>
       <Route exact path='/tags' render={(props) => <CollectionList {...props} name="tags"/>} />
 
       <Route path='/image/edit/:id' component={ImageEdit} />
-      <Route path='/image/create' component={ImageCreate} />
-      <Route path='/image/details/:id' component={ImageShow} />
-      <Route path='/shows/edit/:id' component={ShowEdit} />
-      <Route path='/shows/create' component={ShowCreate} />
-      <Route path='/shows/details/:id' component={ShowShow} />
 
-      <Route path='/contestants/details/:id' component={ContestantShow} />
-      <Route path='/contestants/create' component={ContestantCreate} />
-      <Route path='/contestants/edit/:id' component={ContestantEdit} />
+      <Route path='/image/details/:id' component={ImageDetails} />
+      <Route path='/shows/details/:id' component={ShowDetails} />
+      <Route path='/contestants/details/:id' component={ContestantDetails} />
+      <Route path='/tags/details/:id' component={TagDetails} />
     </div>
     </div>
 

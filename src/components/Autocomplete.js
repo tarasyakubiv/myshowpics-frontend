@@ -30,38 +30,49 @@ class Autocomplete extends React.Component {
     this.setState({
       currentOption: event.target.value,
       filteredOptions: (this.state.options.filter(function(option){
-        return ( option.name.toLowerCase().includes(event.target.value.toLowerCase()))
+        return ( event.target.value.length>0?option.name.toLowerCase().includes(event.target.value.toLowerCase()):false)
       }))
     }, function(){
     })
   }
-  addOption(event) {
-    this.props.createHandler(this.props.options, this.props.collectionName, this.state.currentOption);
+
+  addOption() {
+    this.setState({ currentOption: "", filteredOptions: []}, () => {
+      document.getElementById(this.props.collectionName+"-autocomplete").value = ""
+      this.props.createHandler(this.props.options, this.props.collectionName, this.state.currentOption);
+    })
+    
   }
   addExisting(item) {
-    this.props.addHandler(this.props.options, this.props.collectionName, item);
+    this.setState({ currentOption: "", filteredOptions: []}, () => {
+      document.getElementById(this.props.collectionName+"-autocomplete").value = ""
+      this.props.addHandler(this.props.options, this.props.collectionName, item);
+    })
   }
+
   render() {
     return (
       <div className="form-group">
-        <input type="text"
+        <input type="text" id={`${this.props.collectionName}-autocomplete`}
           onKeyUp={(event)=>(event.keyCode==13)?this.addOption():''}
           className="form-control option-name"
           onChange={this.filter}
           value={this.currentOption}
           placeholder={this.props.placeholder}>
         </input>
+        <div class={`${this.props.collectionName}-options`}>
         {this.state.filteredOptions.map((option)=>{
           return <div class="fl-left" key={option._id}>
               <button onClick={this.addExisting.bind(this, option)} class="btn btn-info">{option.name}</button>
           </div>
         })}
         {(()=>{
-          if (this.state.filteredOptions.length == 0 && this.state.currentOption!='')
+          if (this.state.filteredOptions.length == 0 && this.state.currentOption!='' && this.props.creator !== "false")
             return <a className="btn btn-info option-add" onClick={this.addOption}>
               Add {this.state.currentOption}
             </a>
         })()}
+        </div>
       </div>
     )
   }

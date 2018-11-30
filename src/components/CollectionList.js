@@ -43,8 +43,7 @@ class CollectionList extends Component {
   render() {
     return (
           <div class="panel-body">
-            <h4><Link to={`/${this.props.name}/create`}><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Contestant</Link></h4>
-            <Autocomplete options={this.state.collection} placeholder={`Search ${this.props.name}`}
+           <Autocomplete options={this.state.collection} placeholder={`Search ${this.props.name}`}
                             addHandler={this.goTo} createHandler={this.create}
                             collectionName={this.props.name} url={`http://localhost:8090/${this.props.name}/`}/>
               {this.state.collection.map(c =>
