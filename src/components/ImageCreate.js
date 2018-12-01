@@ -7,10 +7,7 @@ class ImageCreate extends Component {
   constructor() {
     super();
     this.state = {
-      image: '',
-      gameShow: null,
-      contestants: [],
-      tags: []
+      image: ''
     };
   }
   onChange = (e) => {
@@ -22,16 +19,16 @@ class ImageCreate extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    const { image, gameShow, contestants, tags } = this.state;
+    const { image } = this.state;
 
-    axios.post('http://localhost:8090/image', { image, gameShow, contestants, tags })
+    axios.post('http://localhost:8090/image', { image })
       .then((result) => {
         this.props.history.push("/")
       });
   }
 
   render() {
-    const  { image, gameShow, contestants, tags } = this.state;
+    const  { image } = this.state;
     return (
       <div class="container">
         <div class="panel panel-default">

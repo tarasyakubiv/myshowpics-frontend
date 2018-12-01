@@ -49,6 +49,7 @@ ReactDOM.render(<Router>
       <Route exact path='/tags' render={(props) => <CollectionList {...props} name="tags"/>} />
 
       <Route path='/image/edit/:id' component={ImageEdit} />
+      <Route path='/image/create' component={ImageCreate} />
 
       <Route path='/image/details/:id' component={ImageDetails} />
       <Route path='/shows/details/:id' component={ShowDetails} />

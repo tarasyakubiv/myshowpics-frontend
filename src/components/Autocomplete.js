@@ -1,8 +1,5 @@
 const React = require('react'),
-  ReactDOM = require('react-dom'),
   request = require('axios')
-
-const fD = ReactDOM.findDOMNode
 
 class Autocomplete extends React.Component {
   constructor(props) {
@@ -37,16 +34,16 @@ class Autocomplete extends React.Component {
   }
 
   addOption() {
+    this.props.createHandler(this.props.options, this.props.collectionName, this.state.currentOption);
     this.setState({ currentOption: "", filteredOptions: []}, () => {
       document.getElementById(this.props.collectionName+"-autocomplete").value = ""
-      this.props.createHandler(this.props.options, this.props.collectionName, this.state.currentOption);
     })
     
   }
   addExisting(item) {
+    this.props.addHandler(this.props.options, this.props.collectionName, item);
     this.setState({ currentOption: "", filteredOptions: []}, () => {
       document.getElementById(this.props.collectionName+"-autocomplete").value = ""
-      this.props.addHandler(this.props.options, this.props.collectionName, item);
     })
   }
 
