@@ -14,7 +14,7 @@ class SetItem extends Component {
     }
 
     createItem(collection, collectionName, itemName) {
-        axios.post("http://localhost:8090/"+collectionName, {name: itemName})
+        axios.post(process.env.REACT_APP_API_HOST+collectionName, {name: itemName})
         .then((response) => {
           this.setItem(collection, collectionName, response.data)
          })
@@ -50,7 +50,7 @@ class SetItem extends Component {
           <Autocomplete options={[]} placeholder={`Set ${this.props.collectionName}`}
                         addHandler={this.setItem} createHandler={this.createItem} creator={this.props.creator}
                         collectionName={this.props.collectionName} 
-                        url={`http://localhost:8090/${this.props.collectionName}/`}/>
+                        url={`${process.env.REACT_APP_API_HOST}${this.props.collectionName}/`}/>
           </div>
           </div>
         );

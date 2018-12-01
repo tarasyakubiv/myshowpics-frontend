@@ -14,7 +14,7 @@ class AddCollection extends Component {
     }
 
     createItem(collection, collectionName, itemName) {
-        axios.post("http://localhost:8090/"+collectionName, {name: itemName})
+        axios.post(process.env.REACT_APP_API_HOST+collectionName, {name: itemName})
         .then((response) => {
           this.addItem(collection, collectionName, response.data)
          })
@@ -54,7 +54,7 @@ class AddCollection extends Component {
           <Autocomplete options={this.props.collection} placeholder={`Search ${this.props.collectionName}`}
                         addHandler={this.addItem} createHandler={this.createItem} creator={this.props.creator}
                         collectionName={this.props.collectionName} 
-                        url={`http://localhost:8090/${this.props.collectionName}/`}/>
+                        url={`${process.env.REACT_APP_API_HOST}/${this.props.collectionName}/`}/>
           </div>
           </div>
         );

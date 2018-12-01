@@ -3,33 +3,44 @@ import { Link } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
 import AddCollection from './AddCollection';
+import Pagination from './Pagination';
 
 class ImageSearch extends Component {
   constructor(props) {
     super(props)
     this.state = {
       images: props.images,
-      tags: [],
-      shows: [],
-      contestants: [],
-      andTag: false,
-      andContestant: false,
+      pageOfItems: [],
+      tags: props.tags,
+      shows: this.props.shows, 
+      contestants: this.props.contestants,
+      andTag: this.props.andTag,
+      andContestant: this.props.andContestant,
       query: '?'
     }
     this.refreshSearch = this.refreshSearch.bind(this)
     this.updateCollection = this.updateCollection.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.onChangePage = this.onChangePage.bind(this);
   }
 
   componentDidMount() {
-    axios.get(`http://localhost:8090/images`)
+    let query = this.buildSearchQuery()
+    query = query + "&tags_and=" + this.state.andTag + "&contestants_and=" + this.state.andContestant;
+    axios.get(process.env.REACT_APP_API_HOST+"images" + query)
       .then(res => {
         const images = res.data;
-        this.setState({ images }, () => {
-            this.props.setImages(images)
+        this.setState({ images, query }, () => {
+            this.props.setImages(images, this.state.tags, this.state.shows, 
+              this.state.contestants, this.state.andTag, this.state.andContestant)
         })
       })
   }
+
+  onChangePage(pageOfItems) {
+    // update state with new page of items
+    this.setState({ pageOfItems: pageOfItems });
+}
 
   handleInputChange(event) {
     const target = event.target;
@@ -53,11 +64,12 @@ class ImageSearch extends Component {
   refreshSearch(query) {
     if(query !== this.state.query) {
       this.setState({query}, () => {
-        axios.get("http://localhost:8090/images" + query)
+        axios.get(process.env.REACT_APP_API_HOST+"images" + query)
         .then(res => {
           const images = res.data;
           this.setState({ images }, () => {
-            this.props.setImages(images)
+            this.props.setImages(images, this.state.tags, this.state.shows, 
+              this.state.contestants, this.state.andTag, this.state.andContestant)
           })
         })
       })
@@ -115,10 +127,11 @@ class ImageSearch extends Component {
           </label>
              </div>
            </div>
+           <Pagination items={this.state.images} pageSize="80" onChangePage={this.onChangePage} />
             <div class="cl-b">
-              {this.state.images.map(i =>
+              {this.state.pageOfItems.map(i =>
                   <Link to={`/image/details/${i.id}`}>
-                      <img id={`image-${i.id}`} alt={`${i.name}`} class ="image" src={i.image}></img>
+                      <img id={`image-${i.id}`} alt={`${i.name}`} class ="image" src={i.thumb}></img>
                   </Link>
                 )}
             </div>

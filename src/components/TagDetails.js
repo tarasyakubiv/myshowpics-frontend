@@ -14,11 +14,11 @@ class TagDetails extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:8090/tags/'+this.props.match.params.id)
+    axios.get(process.env.REACT_APP_API_HOST+'tags/'+this.props.match.params.id)
       .then(res => {
         this.setState({ tag: res.data });
       })
-      axios.get('http://localhost:8090/tags/'+this.props.match.params.id+"/images")
+      axios.get(process.env.REACT_APP_API_HOST+'tags/'+this.props.match.params.id+"/images")
       .then(res => {
         this.setState({ images: res.data });
       })
@@ -26,7 +26,7 @@ class TagDetails extends Component {
 
   delete(id){
     console.log(id);
-    axios.delete('http://localhost:8090/tags/'+id)
+    axios.delete(process.env.REACT_APP_API_HOST+'tags/'+id)
       .then((result) => {
         this.props.history.push("/tags")
       });
@@ -54,7 +54,7 @@ class TagDetails extends Component {
               {this.state.images.map(i =>
                   <div class="image-div">
                     <Link to={`/image/details/${i.id}`}>
-                      <img class ="image"  alt={`${i.name}`} src={i.image}></img>
+                      <img class ="image"  alt={`${i.name}`} src={i.thumb}></img>
                     </Link>
                   </div>
                 )}

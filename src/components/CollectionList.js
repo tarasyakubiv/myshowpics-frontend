@@ -15,7 +15,7 @@ class CollectionList extends Component {
   }
 
   componentDidMount() {
-    axios.get(`http://localhost:8090/${this.props.name}`)
+    axios.get(`${process.env.REACT_APP_API_HOST}${this.props.name}`)
       .then(res => {
         const collection = res.data;
         this.setState({ collection });
@@ -23,7 +23,7 @@ class CollectionList extends Component {
   }
 
   create(collection, collectionName, itemName) {
-    axios.post("http://localhost:8090/"+collectionName, {name: itemName})
+    axios.post(process.env.REACT_APP_API_HOST+collectionName, {name: itemName})
     .then((response) => this.props.history.push("/"+collectionName+"/details/"+response.data.id))
   }
 
@@ -32,7 +32,7 @@ class CollectionList extends Component {
    }
 
   delete(collection, item){
-    axios.delete('http://localhost:8090/'+this.props.name+'/'+item.id)
+    axios.delete(process.env.REACT_APP_API_HOST+this.props.name+'/'+item.id)
       .then(() => {
         let removeIndex = collection.map(function(item) { return item.id; }).indexOf(item.id);
         collection.splice(removeIndex, 1)
@@ -45,7 +45,7 @@ class CollectionList extends Component {
           <div class="panel-body">
            <Autocomplete options={this.state.collection} placeholder={`Search ${this.props.name}`}
                             addHandler={this.goTo} createHandler={this.create}
-                            collectionName={this.props.name} url={`http://localhost:8090/${this.props.name}/`}/>
+                            collectionName={this.props.name} url={`${process.env.REACT_APP_API_HOST}${this.props.name}/`}/>
               {this.state.collection.map(c =>
                 <div class="child-container">
                 <span class="child-span"><Link to={`/${this.props.name}/details/${c.id}`}>{c.name}</Link></span>

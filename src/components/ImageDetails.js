@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import AddCollection from './AddCollection';
 import SetItem from './SetItem';
 
@@ -18,7 +17,7 @@ class ImageDetails extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:8090/image/'+this.props.match.params.id)
+    axios.get(process.env.REACT_APP_API_HOST+'image/'+this.props.match.params.id)
       .then(res => {
         this.setState({ image: res.data, contestants: res.data.contestants, tags: res.data.tags});
         if(res.data.gameShow != null) {
@@ -29,19 +28,19 @@ class ImageDetails extends Component {
 
   delete(id){
     console.log(id);
-    axios.delete('http://localhost:8090/image/'+id)
+    axios.delete(process.env.REACT_APP_API_HOST+'image/'+id)
       .then(() => {
         this.props.history.push("/")
       });
   }
   updateCollection(collection, collectionName, item, deleteCheck) {
     if(deleteCheck) {
-      axios.delete('http://localhost:8090/image/'+this.props.match.params.id+"/"+collectionName+"/"+item.id)
+      axios.delete(process.env.REACT_APP_API_HOST+'image/'+this.props.match.params.id+"/"+collectionName+"/"+item.id)
       if(collectionName == "shows") {
         this.setState({show: ""});
       }
     } else {
-      axios.patch("http://localhost:8090/image/"+this.props.match.params.id+"/"+collectionName+"/"+item.id)
+      axios.patch(process.env.REACT_APP_API_HOST+"image/"+this.props.match.params.id+"/"+collectionName+"/"+item.id)
       if(collectionName == "shows") {
         this.setState({show: item});
       }
@@ -67,7 +66,9 @@ class ImageDetails extends Component {
               <img src={this.state.image.thumb}  alt={`${this.state.image.name}`}></img>
               </div>  
               <div>
+              <a href={this.state.image.image}>
               <img src={this.state.image.image}  alt={`${this.state.image.name}`}></img>
+              </a>
               </div>
               <div>
                 <div>Tags:</div>
@@ -83,7 +84,6 @@ class ImageDetails extends Component {
               <AddCollection updateCollection={this.updateCollection} creator="true"
                             collection={this.state.contestants} collectionName="contestants"/>
             <div class="cl-b">
-            <Link to={`/image/edit/${this.state.image.id}`} class="btn btn-success">Edit</Link>&nbsp;
             <button onClick={this.delete.bind(this, this.state.image.id)} class="btn btn-danger">Delete</button>
             </div>
           </div>

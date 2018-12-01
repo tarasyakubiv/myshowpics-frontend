@@ -17,15 +17,15 @@ class ShowDetails extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:8090/shows/'+this.props.match.params.id)
+    axios.get(process.env.REACT_APP_API_HOST+'shows/'+this.props.match.params.id)
       .then(res => {
         this.setState({ show: res.data });
       })
-      axios.get('http://localhost:8090/shows/'+this.props.match.params.id+"/images")
+      axios.get(process.env.REACT_APP_API_HOST+'shows/'+this.props.match.params.id+"/images")
       .then(res => {
         this.setState({ images: res.data });
       })
-      axios.get('http://localhost:8090/shows/'+this.props.match.params.id+"/contestants")
+      axios.get(process.env.REACT_APP_API_HOST+'shows/'+this.props.match.params.id+"/contestants")
       .then(res => {
         this.setState({ contestants: res.data });
       })
@@ -34,7 +34,7 @@ class ShowDetails extends Component {
 
   delete(id){
     console.log(id);
-    axios.delete('http://localhost:8090/shows/'+id)
+    axios.delete(process.env.REACT_APP_API_HOST+'shows/'+id)
       .then((result) => {
         this.props.history.push("/shows")
       });
@@ -42,9 +42,9 @@ class ShowDetails extends Component {
 
   updateCollection(collection, collectionName, item, deleteCheck) {
     if(deleteCheck) {
-      axios.delete('http://localhost:8090/shows/'+this.props.match.params.id+"/"+collectionName+"/"+item.id)
+      axios.delete(process.env.REACT_APP_API_HOST+'shows/'+this.props.match.params.id+"/"+collectionName+"/"+item.id)
     } else {
-      axios.patch("http://localhost:8090/shows/"+this.props.match.params.id+"/"+collectionName+"/"+item.id)
+      axios.patch(process.env.REACT_APP_API_HOST+"shows/"+this.props.match.params.id+"/"+collectionName+"/"+item.id)
     }
   }
 
@@ -73,7 +73,7 @@ class ShowDetails extends Component {
               {this.state.images.map(i =>
                   <div class="image-div">
                     <Link to={`/image/details/${i.id}`}>
-                      <img class ="image"  alt={`${i.name}`} src={i.image}></img>
+                      <img class ="image"  alt={`${i.name}`} src={i.thumb}></img>
                     </Link>
                   </div>
                 )}

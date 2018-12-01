@@ -4,8 +4,6 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import App from './App';
-import ImageCreate from './components/ImageCreate';
-import ImageEdit from './components/ImageEdit';
 
 import ImageDetails from './components/ImageDetails';
 import ShowDetails from './components/ShowDetails';
@@ -47,9 +45,6 @@ ReactDOM.render(<Router>
       <Route exact path='/shows' render={(props) => <CollectionList {...props} name="shows"/>} />
       <Route exact path='/contestants' render={(props) => <CollectionList {...props} name="contestants"/>} />
       <Route exact path='/tags' render={(props) => <CollectionList {...props} name="tags"/>} />
-
-      <Route path='/image/edit/:id' component={ImageEdit} />
-      <Route path='/image/create' component={ImageCreate} />
 
       <Route path='/image/details/:id' component={ImageDetails} />
       <Route path='/shows/details/:id' component={ShowDetails} />

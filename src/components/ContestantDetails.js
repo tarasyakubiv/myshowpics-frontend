@@ -16,12 +16,12 @@ class ContestantDetails extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:8090/contestants/'+this.props.match.params.id)
+    axios.get(process.env.REACT_APP_API_HOST+'contestants/'+this.props.match.params.id)
       .then(res => {
         this.setState({ contestant: res.data, shows: res.data.gameShows  });
         console.log(this.state.contestant);
       });
-    axios.get('http://localhost:8090/contestants/'+this.props.match.params.id+"/images")
+    axios.get(process.env.REACT_APP_API_HOST+'contestants/'+this.props.match.params.id+"/images")
       .then(res => {
         this.setState({ images: res.data });
       })
@@ -29,7 +29,7 @@ class ContestantDetails extends Component {
 
   delete(id){
     console.log(id);
-    axios.delete('http://localhost:8090/contestants/'+id)
+    axios.delete(process.env.REACT_APP_API_HOST+'contestants/'+id)
       .then((result) => {
         this.props.history.push("/contestants")
       });
@@ -37,9 +37,9 @@ class ContestantDetails extends Component {
 
   updateCollection(collection, collectionName, item, deleteCheck) {
     if(deleteCheck) {
-      axios.delete('http://localhost:8090/contestants/'+this.props.match.params.id+"/"+collectionName+"/"+item.id)
+      axios.delete(process.env.REACT_APP_API_HOST+'contestants/'+this.props.match.params.id+"/"+collectionName+"/"+item.id)
     } else {
-      axios.patch("http://localhost:8090/contestants/"+this.props.match.params.id+"/"+collectionName+"/"+item.id)
+      axios.patch(process.env.REACT_APP_API_HOST+"contestants/"+this.props.match.params.id+"/"+collectionName+"/"+item.id)
     }
   }
 
@@ -70,7 +70,7 @@ class ContestantDetails extends Component {
               {this.state.images.map(i =>
                   <div class="image-div">
                     <Link to={`/image/details/${i.id}`}>
-                      <img class ="image"  alt={`${i.name}`} src={i.image}></img>
+                      <img class ="image"  alt={`${i.name}`} src={i.thumb}></img>
                     </Link>
                   </div>
                 )}
