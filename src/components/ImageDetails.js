@@ -58,12 +58,16 @@ class ImageDetails extends Component {
             </h3>
           </div>
           <div class="panel-body">
-              <div>Image link:</div>
+              <div>Image name:</div>
+              <div>{this.state.image.name}</div>
               <div>
-              <a href={this.state.image.image}>{this.state.image.image}</a>
+              <a href={this.state.image.sourceLink}>Image source</a>
+              </div>
+              <div>
+              <img src={this.state.image.thumb}  alt={`${this.state.image.name}`}></img>
               </div>  
               <div>
-              <img src={this.state.image.image}></img>
+              <img src={this.state.image.image}  alt={`${this.state.image.name}`}></img>
               </div>
               <div>
                 <div>Tags:</div>

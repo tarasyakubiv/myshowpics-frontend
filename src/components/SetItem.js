@@ -16,7 +16,7 @@ class SetItem extends Component {
     createItem(collection, collectionName, itemName) {
         axios.post("http://localhost:8090/"+collectionName, {name: itemName})
         .then((response) => {
-          this.setItem(collectionName, response.data)
+          this.setItem(collection, collectionName, response.data)
          })
       }
     

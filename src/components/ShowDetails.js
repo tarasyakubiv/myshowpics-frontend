@@ -73,7 +73,7 @@ class ShowDetails extends Component {
               {this.state.images.map(i =>
                   <div class="image-div">
                     <Link to={`/image/details/${i.id}`}>
-                      <img class ="image" src={i.image}></img>
+                      <img class ="image"  alt={`${i.name}`} src={i.image}></img>
                     </Link>
                   </div>
                 )}

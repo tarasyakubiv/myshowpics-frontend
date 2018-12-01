@@ -93,7 +93,7 @@ class ImageUpdate extends Component {
             <div class="cl-b">
               {this.state.images.map(i =>
                   <div class="image-div" onClick={this.imageClick.bind(this,i)}>
-                      <img id={`image-${i.id}`} class ="image" src={i.image}></img>
+                      <img id={`image-${i.id}`} alt={`${i.name}`} class ="image" src={i.image}></img>
                   </div>
                 )}
             </div>

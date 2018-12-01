@@ -118,7 +118,7 @@ class ImageSearch extends Component {
             <div class="cl-b">
               {this.state.images.map(i =>
                   <Link to={`/image/details/${i.id}`}>
-                      <img id={`image-${i.id}`} class ="image" src={i.image}></img>
+                      <img id={`image-${i.id}`} alt={`${i.name}`} class ="image" src={i.image}></img>
                   </Link>
                 )}
             </div>
